@@ -1,0 +1,115 @@
+body, html {
+    height: 100%;
+}
+
+.container{
+    width: 512px;
+    background-color: transparent;
+    /**border-radius: 4px;
+      font-family: 'Open Sans', sans-serif;
+**/
+    padding: 64px;
+    margin-left: 700px;
+    margin-top: 90px;
+  font-family: 'Raleway', sans-serif;
+}
+.container:hover{
+    background-color: #e3dede;
+
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("../img/build.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#loginHere {
+    /* The image used */
+    background-image: url("../img/booki.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: red;
+  font-family: 'Raleway', sans-serif;
+
+}
+
+.caption span.border {
+  background-color: #fff;
+  color: #000;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+  border-color: #000;
+}
+
+.caption span.border:hover {
+  background-color: #000;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+  border-color: #000;
+}
+
+.enter {
+  position: absolute;
+  left: 0;
+  top: 90%;
+  width: 100%;
+  text-align: center;
+  color: red;
+  font-family: 'Raleway', sans-serif;
+
+}
+
+.enter span.border {
+  background-color: transparent;
+  color: #000;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+  border-color: #000;
+}
+
+.enter span.border:hover {
+  /**text-decoration: underline;**/
+  text-decoration: none;
+   /**border-style: solid;
+    border-color: #000;**/
+    background-color: transparent;
+  color: #000;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+  border-bottom: 6px solid #000;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+
