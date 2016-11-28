@@ -1,3 +1,16 @@
+@font-face {
+    font-family: FredokaOne;
+    src: url("../fonts/FredokaOne/FredokaOne.ttf");
+
+    font-family: raleway;
+    src: url("../fonts/Raleway/raleway.ttf");
+
+    font-family: ralewayBold;
+    src: url("../fonts/Raleway/ralewayBold.ttf");
+
+    
+}
+
 body, html {
     height: 100%;
 }
@@ -20,7 +33,7 @@ body, html {
 
 .parallax {
     /* The image used */
-    background-image: url("../img/build.jpg");
+    background-image: url("../img/bg2.jpg");
 
     /* Full height */
     height: 100%;
@@ -34,7 +47,7 @@ body, html {
 
 #loginHere {
     /* The image used */
-    background-image: url("../img/booki.jpg");
+    background-image: url("../img/bg3a.png");
 
     /* Full height */
     height: 100%;
@@ -49,11 +62,11 @@ body, html {
 .caption {
   position: absolute;
   left: 0;
-  top: 50%;
+  top: 10%;
   width: 100%;
   text-align: center;
   color: red;
-  font-family: 'Raleway', sans-serif;
+  font-family: FredokaOne;
 
 }
 
@@ -112,4 +125,10 @@ a:hover{
     text-decoration: none;
 }
 
+.form-group{
+  font-family: raleway;
+}
 
+#formTitle{
+  font-family: ralewayBold;
+}

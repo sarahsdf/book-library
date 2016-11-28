@@ -1,0 +1,19 @@
+.container{
+	margin-top: 70px;
+	background-color: #FFEEE4;
+	border-radius: 4px;
+	padding: 64px;
+}
+.container:hover{
+	background-color: #fff;
+
+}
+
+body{
+	background-image: url("../images/b.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+
