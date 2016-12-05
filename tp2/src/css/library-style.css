@@ -1,19 +1,47 @@
+@font-face {
+    font-family: montserrat;
+    src: url("../fonts/montserrat/montserrat.ttf");
+}
+
+
 .container{
 	margin-top: 70px;
-	background-color: #FFEEE4;
+	background-color: #fff;
 	border-radius: 4px;
 	padding: 64px;
 }
 .container:hover{
-	background-color: #fff;
+	/*background-color: #fff;*/
+	animation: pulse 5s infinite;
 
 }
 
 body{
-	background-image: url("../images/b.jpg");
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
+	background-image: url("../img/c.png");
+	background-repeat: repeat;
+	/*background-attachment: fixed;
+	background-size: cover;*/
+}
+
+#navv{
+  font-family: montserrat;
+}
+
+#title{
+  margin-left: 250px;
+  color: black;
+  letter-spacing: 5px;
+}
+#title:hover{
+  text-decoration: underline;
 }
 
 
+@keyframes pulse {
+  0% {
+    background-color: #d8e9ef;
+  }
+  100% {
+    background-color: #FADAD8;
+  }
+}

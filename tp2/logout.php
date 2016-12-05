@@ -1,62 +1,14 @@
 <?php
-    session_start();
+	session_start();
 
-    $servername = "localhost";
-    $usernamedb = "root";
-    $passworddb = "";
-    $dbname = "library";
+	if( isset($_SESSION['username']) ){
+		$username = $_SESSION['username']; //Want to re-instate this after we destroy the session.
+	}   
 
-    $usernameValid = false;
-    $passwordValid = false;
+	unset($_SESSION);
+	session_destroy();
 
-    if (isset($_POST['login'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        // Create connection
-        $conn = mysqli_connect($servername, $usernamedb, $passworddb, $dbname); 
-        $sql = "SELECT * FROM user";
-        $result = $conn->query($sql);
-        
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " .  mysqli_connect_error());
-        }
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                if($row['username'] == $username && $row['password'] == $password ){
-                    $_SESSION['username'] = "user";
-                    if($row['role'] == "admin"){
-                        header("Location: admin.php");  
-                    }
-                    else{
-                        header("Location: library.php");
-                    }
-                    break;
-                }
-            }
-        }
-
-        if (preg_match("/^[a-zA-Z ]{1,255}$/", $_POST['username'])){
-            $usernameValid = true;
-        }
-        else{
-            $usernameValid = false;
-        }
-
-        if (preg_match("/^\w{3,20}$/", $_POST['password'])){
-            $passwordValid = true;
-        }
-        else{
-            $passwordValid = false;
-        }
-
-        $conn->close();
-    }
 ?>
- <!-- pagination belom!!!!! -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -136,4 +88,3 @@
 
     </body>
 </html>
-

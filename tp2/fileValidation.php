@@ -11,7 +11,7 @@
 <body>
 <?php if (! $_POST) {echo "400 Bad Request"; die();}
 session_start();
-$target_dir = "./uploads/";
+$target_dir = "./covers/";
 $uploadStatus = true;
 
 
@@ -35,7 +35,7 @@ if(isset($_FILES['image'])){
 	$file_ext = pathinfo($file_name,PATHINFO_EXTENSION);
 
 	//menindahkan file dari tempat yang sementara pada server ke directory yang kita inginkan
-	move_uploaded_file($file_tmp, ("./uploads/".$file_name));
+	move_uploaded_file($file_tmp, ("./covers/".$file_name));
 	
 	$_SESSION['message'] = "The file ". basename($file_name). " has been uploaded!" ;
 
@@ -57,7 +57,7 @@ if(isset($_FILES['image'])){
 	}
 
 	if($uploadStatus == true){
-		$rowData = array("./uploads/".$file_name, $file_name, $time);
+		$rowData = array("./src/covers/".$file_name, $file_name, $time);
 		if($_SESSION['rowData']){
 			$tableData = $_SESSION['rowData'];
 			array_push($tableData, $rowData);
@@ -66,10 +66,10 @@ if(isset($_FILES['image'])){
 		else{
 			$_SESSION['rowData'] = array($rowData);
 		}
-		header("Location: index.php");
+		header("Location: admin.php");
 	}
 }
 ?>
-<a href="index.php" alt="back to index"><button class="btn btn-warning pull-right" id="button">Upload Another File</button></a>
+<a href="admin.php" alt="back to index"><button class="btn btn-warning pull-right" id="button">Upload Another File</button></a>
 </body>
 </html>

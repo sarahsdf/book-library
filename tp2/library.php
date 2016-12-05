@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if(!isset($_SESSION['username'])){
-		header("Location: index.php");
+		header("Location: index.php#loginHere");
 	}
 	function connectDB() {
 		$servername = "localhost";
@@ -18,6 +18,13 @@
 		}
 		return $conn;
 	}
+
+	function bookCover(){
+		$conn = connectDB();
+		$sql = "SELECT * from book";
+		$result = $conn->query($sql);
+		return $result;
+	}
 	
 	function insertBook() {
 		$conn = connectDB();
@@ -32,7 +39,27 @@
 		
 		if($result = mysqli_query($conn, $sql)) {
 			echo "New record created successfully <br/>";
-			header("Location: admin.php");
+			header("Location: library.php");
+			} else {
+			die("Error: $sql");
+		}
+		mysqli_close($conn);
+	}
+
+	function borrowBook() {
+		$conn = connectDB();
+		
+		$book_id = $_POST['book_id'];
+		$title = $_POST['title'];
+		$author = $_POST['author'];
+		$publisher = $_POST['publisher'];
+		$description = $_POST['description'];
+		$quantity = $_POST['quantity'];
+		$sql = "INSERT into loan (loan_id, book_id, user_id) SELECT * from book";
+		
+		if($result = mysqli_query($conn, $sql)) {
+			echo "New record created successfully <br/>";
+			header("Location: library.php");
 			} else {
 			die("Error: $sql");
 		}
@@ -53,7 +80,7 @@
 		
 		if($result = mysqli_query($conn, $sql)) {
 			echo "New record created successfully <br/>";
-			header("Location: admin.php");
+			header("Location: library.php");
 			} else {
 			die("Error: $sql");
 		}
@@ -63,11 +90,11 @@
 	function deleteBook($id) {
 		$conn = connectDB();
 		
-		$sql = "DELETE FROM book WHERE id=$id";
+		$sql = "DELETE FROM book WHERE book_id=$id";
 		
 		if($result = mysqli_query($conn, $sql)) {
 			echo "New record created successfully <br/>";
-			header("Location: admin.php");
+			header("Location: library.php");
 			} else {
 			die("Error: $sql");
 		}
@@ -88,12 +115,15 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if($_POST['command'] === 'insert') {
-			insertPaket();
-			} else if($_POST['command'] === 'update') {
-			updatePaket($_POST['paketid']);
-			} else if($_POST['command'] === 'delete') {
-			deletePaket($_POST['paketid']);
+			insertBook();
+		} else if($_POST['command'] === 'update') {
+			updateBook($_POST['bookid']);
+		} else if($_POST['command'] === 'delete') {
+			deleteBook($_POST['bookid']);
+		} else if($_POST['command'] === 'borrow') {
+			borrowBook();
 		}
+
 	}
 	
 ?>
@@ -104,88 +134,57 @@
 		<title>Library</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" href="./src/css/library-style.css">
+		<link rel="stylesheet" href="./src/css/bootstrap-3.3.7.min.css">
+        <link rel="stylesheet" href="./src/css/library-style.css">
 	</head>
 	<body>
-		<nav class="navbar navbar-default text-center navbar-fixed-top" id="navv">
-			<!--bootstrap navigation from http://www.w3schools.com/bootstrap/bootstrap_navbar.asp-->
-			<div class="container-fluid">
-    			<div class="navbar-header" id="navv">
-     				<a class="navbar-brand" href="#" id="judul">Hello, user!</a>
-   				 </div>
-    			<ul class="nav navbar-nav">
-    				<li class="active"><a href="admin.php">Homepage</a></li> 
-					<li><a href="admin.php">Contact</a></li>
-					<li><a href="admin.php">About</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a class="btn btn-info navbar-btn" href="logout.php" id="logout">Logout</a></li>
-				</ul>
- 			</div>
-		</nav>
+		<body data-spy="scroll" data-target=".enter">
+        <nav class="navbar text-center navbar-default navbar-fixed-top" id="navv">
+            <!--bootstrap navigation from http://www.w3schools.com/bootstrap/bootstrap_navbar.asp-->
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.php">Homepage</a></li> 
+                    <li><a href="library.php">Collection</a></li>
+                </ul>
+                    <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="about.php">About</a></li>
+                    <li><a href="logout.php" id="logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="parallax">
+            <div class="enter">
+                <a href="#loginHere"><span class="border">enter <!--span class="glyphicon glyphicon-chevron-down"></span--></span></a>
+            </div>
+
+        </div>
 		<div class="container">
-			<!--h1 class="text-center">Latihan Lab 8</h1-->
-			
-			<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="insertModalLabel">Add Collection</h4>
-						</div>
-						<div class="modal-body">
-							<form action="admin.php" method="post">
-								<div class="form-group">
-                          			<label for="img_path" class="text-center text-danger">Select file to upload:</label>
-                            		<input class="form-control" type="file" name="img_path" id="insert-cover"/>
-                            	</div>
-								<div class="form-group">
-									<label for="title">Title </label>
-									<input type="text" class="form-control" id="insert-title" name="title" placeholder="insert title of the book">
-								</div>
-								<div class="form-group">
-									<label for="author">Author</label>
-									<input type="text" class="form-control" id="insert-author" name="author" placeholder="author of the book">
-								</div>
-								<div class="form-group">
-									<label for="publisher">Publisher</label>
-									<input type="text" class="form-control" id="insert-publisher" name="publisher" placeholder="publisher of the book">
-								</div>
-								<div class="form-group">
-									<label for="description">Description</label>
-									<input type="text" class="form-control" id="insert-description" name="description" placeholder="description of the book">
-								</div>
-								<div class="form-group">
-									<label for="quantity">Quantity</label>
-									<input type="text" class="form-control" id="insert-quantity" name="quantity" placeholder="Quantity of the book">
-								</div>
-								<input type="hidden" id="insert-command" name="command" value="insert">
-								<button type="submit" class="btn btn-primary">Submit</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="table-responsive">
 				<table class='table'>
 					<thead> <tr> <th>ID</th> <th>Covers</th> <th>Title</th> <th>Author</th> <th>Publisher</th> <th>Description</th> <th>Quantity</th> </tr> </thead>
 					<tbody>
 						<?php
-							$img_path = selectAllFromTable("book");
-							while ($row = mysqli_fetch_row($img_path)) {
+							$result = bookCover();
+							while($row = $result->fetch_assoc()) {
 								echo "<tr>";
-								foreach($row as $key => $value) {
-									echo "<td>$value</td>";
-								}
+								echo "<td>" .  $row['book_id'] . "</td>".
+									 "<td><img src=\"" .  $row['img_path'] . "\" width=\"128\"></td>".
+									 "<td>" .  $row['title'] . "</td>".
+									 "<td>" .  $row['author'] . "</td>".
+									 "<td>" .  $row['publisher'] . "</td>".
+									 "<td>" .  $row['description'] . "</td>".
+									 "<td>" .  $row['quantity'] . "</td>";
+							
 								echo '<td>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateModal" onclick="setUpdateData(\''.$row[0].'\',\''.$row[1].'\',\''.$row[2].'\',\''.$row[3].'\',\''.$row[4].'\')">
-								Edit
-								</button>
+								<form action="library.php" method="post">
+									<button type="submit" class="btn btn-default">Borrow this book</button>
+								</form>
 								</td>';
 								echo '<td>
-								<form action="admin.php" method="post">
-									<input type="hidden" id="delete-bookid" name="bookid" value="'.$row[0].'">
+								<form action="library.php" method="post">
+									<input type="hidden" id="delete-bookid" name="bookid" value="'.$row['book_id'].'">
 									<input type="hidden" id="delete-command" name="command" value="delete">
 									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>
@@ -196,15 +195,15 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal fade" id="borrow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="updateModalLabel">Update Collection</h4>
+							<h4 class="modal-title" id="borrowLabel">Update Collection</h4>
 						</div>
 						<div class="modal-body">
-							<form action="admin.php" method="post">
+							<form action="library.php" method="post">
 								<div class="form-group">
                           			<label for="img_path" class="text-center text-danger">Select file to upload:</label>
                             		<input class="form-control" type="file" name="img_path" id="update-cover"/>
@@ -237,23 +236,19 @@
 					</div>
 				</div>
 			</div>
-			<!--h4>Paket</h4-->
-			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertModal">
-				Add Collection
-			</button>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script>
-			function setUpdateData(id, \img_path, tujuan, fitur, harga) {
-				$("#update-bookid").val(id);
-				$("#update-cover").val(img_path);
-				$("#update-title").val(title);
-				$("#update-author").val(author);
-				$("#update-publisher").val(publisher);
-				$("#update-description").val(description);
-				$("#update-quantity").val(quantity);
-			}
+			// function setUpdateData(id, \img_path, tujuan, fitur, harga) {
+			// 	$("#update-bookid").val(id);
+			// 	$("#update-cover").val(img_path);
+			// 	$("#update-title").val(title);
+			// 	$("#update-author").val(author);
+			// 	$("#update-publisher").val(publisher);
+			// 	$("#update-description").val(description);
+			// 	$("#update-quantity").val(quantity);
+			// }
 		</script>
 	</body>
 </html>							

@@ -1,14 +1,6 @@
 @font-face {
-    font-family: FredokaOne;
-    src: url("../fonts/FredokaOne/FredokaOne.ttf");
-
-    font-family: raleway;
-    src: url("../fonts/Raleway/raleway.ttf");
-
-    font-family: ralewayBold;
-    src: url("../fonts/Raleway/ralewayBold.ttf");
-
-    
+    font-family: montserrat;
+    src: url("../fonts/montserrat/montserrat.ttf");
 }
 
 body, html {
@@ -18,13 +10,10 @@ body, html {
 .container{
     width: 512px;
     background-color: transparent;
-    /**border-radius: 4px;
-      font-family: 'Open Sans', sans-serif;
-**/
     padding: 64px;
     margin-left: 700px;
     margin-top: 90px;
-  font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 .container:hover{
     background-color: #e3dede;
@@ -33,7 +22,7 @@ body, html {
 
 .parallax {
     /* The image used */
-    background-image: url("../img/bg2.jpg");
+    background-image: url("../img/rt.jpg");
 
     /* Full height */
     height: 100%;
@@ -59,66 +48,32 @@ body, html {
     background-size: cover;
 }
 
-.caption {
-  position: absolute;
-  left: 0;
-  top: 10%;
-  width: 100%;
-  text-align: center;
-  color: red;
-  font-family: FredokaOne;
-
-}
-
-.caption span.border {
-  background-color: #fff;
-  color: #000;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
-  border-color: #000;
-}
-
-.caption span.border:hover {
-  background-color: #000;
-  color: #fff;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
-  border-color: #000;
-}
-
 .enter {
   position: absolute;
   left: 0;
   top: 90%;
   width: 100%;
   text-align: center;
-  color: red;
-  font-family: 'Raleway', sans-serif;
+  font-family: montserrat;
 
 }
 
 .enter span.border {
   background-color: transparent;
   color: #000;
-  padding: 18px;
+  padding: 10px;
   font-size: 25px;
   letter-spacing: 10px;
-  border-color: #000;
 }
 
 .enter span.border:hover {
-  /**text-decoration: underline;**/
-  text-decoration: none;
-   /**border-style: solid;
-    border-color: #000;**/
-    background-color: transparent;
+  background-color: #fff;
   color: #000;
-  padding: 18px;
+  padding: 10px;
   font-size: 25px;
   letter-spacing: 10px;
-  border-bottom: 6px solid #000;
+  border-color: #000;
+  border-style: solid;
 }
 
 a:hover{
@@ -126,9 +81,22 @@ a:hover{
 }
 
 .form-group{
-  font-family: raleway;
+  font-family: montserrat;
 }
 
 #formTitle{
-  font-family: ralewayBold;
+  font-family: montserrat;
+}
+
+#navv{
+  font-family: montserrat;
+}
+
+#title{
+  margin-left: 250px;
+  color: black;
+  letter-spacing: 5px;
+}
+#title:hover{
+  text-decoration: underline;
 }
