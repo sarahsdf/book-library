@@ -1,8 +1,8 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])){
-        header("Location: index.php#loginHere");
-    }
+    // if(!isset($_SESSION['username'])){
+    //     header("Location: index.php#loginHere");
+    // }
     function connectDB() {
         $servername = "localhost";
         $username = "root";
@@ -196,51 +196,14 @@
         </nav>
         <div class="container">
             <h1 class="text-center">Collections</h1>
+            <?php
+            if(isset($_SESSION['username']) && $_SESSION['role'] === "admin"){
+                ?>
+                 <button type="button" class="btn btn-info" id="addBook">
+                        Add Collection
+                    </button>
+            <?php } ?>
 
-             <button type="button" class="btn btn-info" id="addBook">
-                    Add Collection
-                </button>
-            
-            <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="insertModalLabel">Add Collection</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="admin.php" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="img_path" class="text-center text-danger">Select file to upload:</label>
-                                    <input class="form-control" type="file" name="img_path" id="insert-cover"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="title">Title </label>
-                                    <input type="text" class="form-control" id="insert-title" name="title" placeholder="insert title of the book">
-                                </div>
-                                <div class="form-group">
-                                    <label for="author">Author</label>
-                                    <input type="text" class="form-control" id="insert-author" name="author" placeholder="author of the book">
-                                </div>
-                                <div class="form-group">
-                                    <label for="publisher">Publisher</label>
-                                    <input type="text" class="form-control" id="insert-publisher" name="publisher" placeholder="publisher of the book">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <input type="text" class="form-control" id="insert-description" name="description" placeholder="description of the book">
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="text" class="form-control" id="insert-quantity" name="quantity" placeholder="Quantity of the book">
-                                </div>
-                                <input type="hidden" id="insert-command" name="command" value="insert">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive">
                 <table class='table'>
                     <thead> <tr> <th>ID</th> <th>Covers</th> <th>Title</th> <th>Author</th> <th>Publisher</th> <th>Description</th> <th>Quantity</th> </tr> </thead>

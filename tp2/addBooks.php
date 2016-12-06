@@ -124,7 +124,7 @@
                 </ul>
                     <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="admin.php">Back to Admin</a></li>
+                    <li class="active"><a href="library.php">Back to Admin</a></li>
                     <li><a href="logout.php" id="logout">Logout</a></li>
                 </ul>
             </div>
@@ -136,27 +136,27 @@
                         <form action="admin.php" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="img_path" class="text-center text-danger">Select file to upload:</label>
-                                <input class="form-control" type="file" name="image" id="insert-cover"/>
+                                <input class="form-control" type="file" name="image" id="insert-cover" required />
                             </div>
                             <div class="form-group">
                                 <label for="title">Title </label>
-                                <input type="text" class="form-control" id="insert-title" name="title" placeholder="insert title of the book">
+                                <input type="text" class="form-control" id="insert-title" name="title" placeholder="insert title of the book" required>
                             </div>
                             <div class="form-group">
                                 <label for="author">Author</label>
-                                <input type="text" class="form-control" id="insert-author" name="author" placeholder="author of the book">
+                                <input type="text" class="form-control" id="insert-author" name="author" placeholder="author of the book" required>
                             </div>
                             <div class="form-group">
                                 <label for="publisher">Publisher</label>
-                                <input type="text" class="form-control" id="insert-publisher" name="publisher" placeholder="publisher of the book">
+                                <input type="text" class="form-control" id="insert-publisher" name="publisher" placeholder="publisher of the book" required>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <input type="text" class="form-control" id="insert-description" name="description" placeholder="description of the book">
+                                <input type="text" class="form-control" id="insert-description" name="description" placeholder="description of the book" required>
                             </div>
                             <div class="form-group">
                                 <label for="quantity">Quantity</label>
-                                <input type="text" class="form-control" id="insert-quantity" name="quantity" placeholder="Quantity of the book">
+                                <input type="text" class="form-control" id="insert-quantity" name="quantity" placeholder="Quantity of the book" required>
                             </div>
                             <input type="hidden" id="insert-command" name="command" value="insert">
                             <button type="submit" class="btn btn-primary">Submit</button>

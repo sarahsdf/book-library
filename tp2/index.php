@@ -30,11 +30,8 @@
                     $_SESSION['username'] = $username;
                     $_SESSION['role'] = $row['role'];
                     $_SESSION['user_id'] = $row['user_id'];
-                    if($row['role'] == "admin"){
-                        header("Location: admin.php");  
-                    }
-                    else{
-                        header("Location: library.php");
+                    if($row['role'] == "admin" || $row['role'] == "user"){
+                        header("Location: library.php");  
                     }
                     break;
                 }
