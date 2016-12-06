@@ -11,7 +11,7 @@
 <body>
 <?php if (! $_POST) {echo "400 Bad Request"; die();}
 session_start();
-$target_dir = "./covers/";
+$target_dir = "./src/covers/";
 $uploadStatus = true;
 
 
@@ -35,7 +35,7 @@ if(isset($_FILES['image'])){
 	$file_ext = pathinfo($file_name,PATHINFO_EXTENSION);
 
 	//menindahkan file dari tempat yang sementara pada server ke directory yang kita inginkan
-	move_uploaded_file($file_tmp, ("./covers/".$file_name));
+	move_uploaded_file($file_tmp, ("./src/covers/".$file_name));
 	
 	$_SESSION['message'] = "The file ". basename($file_name). " has been uploaded!" ;
 

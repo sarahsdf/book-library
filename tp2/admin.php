@@ -26,10 +26,75 @@
         return $result;
     }
 
+    function uploadFile() {
+        $target_dir = "./src/covers/";
+        $uploadStatus = true;
+
+
+        //mengecek apakah terdapat image pada superglobal var $_FILES
+        if(isset($_FILES['image'])){
+            //mendapatkan nama file
+            $file_name = $_FILES['image']['name'];
+
+            //mendapatkan ukuran file
+            $file_size = $_FILES['image']['size'];
+
+            //mendapatkan nama file sementara yang dismpan oleh server
+            $file_tmp = $_FILES['image']['tmp_name'];
+
+            //mendapatkan tipe file
+            $file_type = $_FILES['image']['type'];
+
+            $time = date_create();
+
+            //mendapatkan file extension
+            $file_ext = pathinfo($file_name,PATHINFO_EXTENSION);
+
+            //menindahkan file dari tempat yang sementara pada server ke directory yang kita inginkan
+            move_uploaded_file($file_tmp, ("./src/covers/".$file_name));
+            
+            $_SESSION['message'] = "The file ". basename($file_name). " has been uploaded!" ;
+
+            if($file_size < 2097152 && ($file_ext == "jpg" || $file_ext == "png")){
+                echo $_SESSION['message'];
+                $uploadStatus = true;
+            }
+
+            //mengecek file size
+            if($file_size > 2097152 ){
+                echo "Sorry, the file is too large!";
+                $uploadStatus = false;
+            }
+
+            //mengecek file ekstensi
+            if($file_ext != "jpg" && $file_ext != "png"){
+                echo "Sorry, only JPG and PNG files are allowed";
+                $uploadStatus = false;
+            }
+
+            return "./src/covers/".$file_name;
+
+            // if($uploadStatus == true){
+            //     $rowData = array("./src/covers/".$file_name, $file_name, $time);
+            //     if($_SESSION['rowData']){
+            //         $tableData = $_SESSION['rowData'];
+            //         array_push($tableData, $rowData);
+            //         $_SESSION['rowData'] = $tableData;
+            //     }
+            //     else{
+            //         $_SESSION['rowData'] = array($rowData);
+            //     }
+            //     header("Location: admin.php");
+            // }
+        }
+    }
+
     function insertBook() {
         $conn = connectDB();
         
-        $img_path = $_POST['img_path'];
+
+
+        $img_path = uploadFile();
         $title = $_POST['title'];
         $author = $_POST['author'];
         $publisher = $_POST['publisher'];
@@ -119,18 +184,22 @@
             <!--bootstrap navigation from http://www.w3schools.com/bootstrap/bootstrap_navbar.asp-->
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php">Homepage</a></li> 
+                    <li ><a href="index.php">Homepage</a></li> 
                     <li><a href="library.php">Collection</a></li>
                 </ul>
                     <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="about.php">About</a></li>
+                    <li class="active"><a href="addBooks.php">Add Collection</a></li>
                     <li><a href="logout.php" id="logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
         <div class="container">
-            <!--h1 class="text-center">Latihan Lab 8</h1-->
+            <h1 class="text-center">Collections</h1>
+
+             <button type="button" class="btn btn-info" id="addBook">
+                    Add Collection
+                </button>
             
             <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -179,6 +248,11 @@
                         <?php
                            $result = bookCover();
                             while($row = $result->fetch_assoc()) {
+                                $_GET['title'] = $row['title'];
+                                $_GET['img_path'] = $row['img_path'];
+                                $_GET['author'] = $row['author'];
+                                $_GET['publisher'] = $row['publisher'];
+                                $_GET['quantity'] = $row['quantity'];
                                 echo "<tr>";
                                 echo "<td>" .  $row['book_id'] . "</td>".
                                      "<td><img src=\"" .  $row['img_path'] . "\" width=\"128\"></td>".
@@ -247,14 +321,13 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#insertModal">
-                Add Collection
-            </button>
+               
         </div>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="src/js/script.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script>
-            function setUpdateData(id, \img_path, tujuan, fitur, harga) {
+            function setUpdateData(id, img_path, title, author, publisher, description, quantity) {
                 $("#update-bookid").val(id);
                 $("#update-cover").val(img_path);
                 $("#update-title").val(title);

@@ -24,10 +24,12 @@
         }
 
         if ($result->num_rows > 0) {
-            // output data of each row
+            // output data of each row 
             while($row = $result->fetch_assoc()) {
                 if($row['username'] == $username && $row['password'] == $password ){
-                    $_SESSION['username'] = "user";
+                    $_SESSION['username'] = $username;
+                    $_SESSION['role'] = $row['role'];
+                    $_SESSION['user_id'] = $row['user_id'];
                     if($row['role'] == "admin"){
                         header("Location: admin.php");  
                     }
@@ -79,7 +81,7 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Homepage</a></li> 
-                    <li><a href="library.php">Collection</a></li>
+                    <li><a href="library.php">View Books</a></li>
                 </ul>
                     <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
                 <ul class="nav navbar-nav navbar-right">

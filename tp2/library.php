@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	if(!isset($_SESSION['username'])){
-		header("Location: index.php#loginHere");
-	}
+	// if(!isset($_SESSION['username'])){
+	// 	header("Location: index.php#loginHere");
+	// }
 	function connectDB() {
 		$servername = "localhost";
 		$username = "root";
@@ -161,94 +161,51 @@
 
         </div>
 		<div class="container">
-			<div class="table-responsive">
-				<table class='table'>
-					<thead> <tr> <th>ID</th> <th>Covers</th> <th>Title</th> <th>Author</th> <th>Publisher</th> <th>Description</th> <th>Quantity</th> </tr> </thead>
-					<tbody>
-						<?php
-							$result = bookCover();
-							while($row = $result->fetch_assoc()) {
-								echo "<tr>";
-								echo "<td>" .  $row['book_id'] . "</td>".
-									 "<td><img src=\"" .  $row['img_path'] . "\" width=\"128\"></td>".
-									 "<td>" .  $row['title'] . "</td>".
-									 "<td>" .  $row['author'] . "</td>".
-									 "<td>" .  $row['publisher'] . "</td>".
-									 "<td>" .  $row['description'] . "</td>".
-									 "<td>" .  $row['quantity'] . "</td>";
+			<div class="row">
+				<?php
+					$result = bookCover();
+					$cf = 0;
+
+					while($row = $result->fetch_assoc()) {
+						$bookId = $row['book_id'];
+						//$userId = $_SESSION['user_id'];
+						$userId = "";
+						$cf++;
+						echo '<div class="col-xs-4 text-center">';
+						echo"<img src=\"" .  $row['img_path'] . "\" width=\"150\" class=\"bookDisplay\">";
 							
-								echo '<td>
-								<form action="library.php" method="post">
-									<button type="submit" class="btn btn-default">Borrow this book</button>
-								</form>
-								</td>';
-								echo '<td>
-								<form action="library.php" method="post">
-									<input type="hidden" id="delete-bookid" name="bookid" value="'.$row['book_id'].'">
-									<input type="hidden" id="delete-command" name="command" value="delete">
-									<button type="submit" class="btn btn-danger">Delete</button>
-								</form>
-								</td>';
-								echo "</tr>";
-							}
-						?>
-					</tbody>
-				</table>
-			</div>
-			<div class="modal fade" id="borrow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="borrowLabel">Update Collection</h4>
-						</div>
-						<div class="modal-body">
-							<form action="library.php" method="post">
-								<div class="form-group">
-                          			<label for="img_path" class="text-center text-danger">Select file to upload:</label>
-                            		<input class="form-control" type="file" name="img_path" id="update-cover"/>
-                            	</div>
-								<div class="form-group">
-									<label for="title">Title </label>
-									<input type="text" class="form-control" id="update-title" name="title" placeholder="insert title of the book">
-								</div>
-								<div class="form-group">
-									<label for="author">Author</label>
-									<input type="text" class="form-control" id="update-author" name="author" placeholder="author of the book">
-								</div>
-								<div class="form-group">
-									<label for="publisher">Publisher</label>
-									<input type="text" class="form-control" id="update-publisher" name="publisher" placeholder="publisher of the book">
-								</div>
-								<div class="form-group">
-									<label for="description">Description</label>
-									<input type="text" class="form-control" id="update-description" name="description" placeholder="description of the book">
-								</div>
-								<div class="form-group">
-									<label for="quantity">Quantity</label>
-									<input type="text" class="form-control" id="update-quantity" name="quantity" placeholder="Quantity of the book">
-								</div>
-								<input type="hidden" id="update-bookid" name="bookid">
-								<input type="hidden" id="update-command" name="command" value="update">
-								<button type="submit" class="btn btn-primary">Submit</button>
+						echo "<div><strong>".  $row['title'] . "</strong></div>";
+						echo "<em>". $row['author'] . "</em>";
+						echo '<div class="row">';
+						if(isset($_SESSION['username'])){
+							echo '
+							<form class="col-xs-2 col-xs-offset-2" action="library.php" method="post">
+								<button type="submit" class="btn btn-default text-center">Borrow</button>
 							</form>
-						</div>
-					</div>
-				</div>
+							';
+						}
+						echo '
+						<form class="col-xs-6" action="viewDetails.php?book_id='.$bookId.' method="post">
+							<input type="hidden" name="title" value="'.$row['title'].'"/>
+							<input type="hidden" name="img_path" value="'.$row['img_path'].'"/>
+							<input type="hidden" name="author" value="'.$row['author'].'"/>
+							<input type="hidden" name="publisher" value="'.$row['publisher'].'"/>
+							<input type="hidden" name="quantity" value="'.$row['quantity'].'"/>
+							<input type="hidden" name="description" value="'.$row['description'].'"/>
+							<button type="submit" class="btn btn-danger text-center">view details</button>
+						</form>
+						';
+						echo '</div>';
+						echo "</div>";
+						if ($cf == 3) {
+							echo "<div class=\"clearfix\"></div>";
+							$cf = 0;
+						}
+					}
+				?>
 			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script>
-			// function setUpdateData(id, \img_path, tujuan, fitur, harga) {
-			// 	$("#update-bookid").val(id);
-			// 	$("#update-cover").val(img_path);
-			// 	$("#update-title").val(title);
-			// 	$("#update-author").val(author);
-			// 	$("#update-publisher").val(publisher);
-			// 	$("#update-description").val(description);
-			// 	$("#update-quantity").val(quantity);
-			// }
-		</script>
 	</body>
 </html>							
