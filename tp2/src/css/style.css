@@ -13,7 +13,7 @@ body, html {
     padding: 64px;
     margin-left: 700px;
     margin-top: 90px;
-    font-family: 'Raleway', sans-serif;
+    font-family: montserrat;
 }
 .container:hover{
     background-color: #e3dede;

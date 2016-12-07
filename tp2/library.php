@@ -177,7 +177,7 @@
 						//$userId = $_SESSION['user_id'];
 						$userId = "";
 						$cf++;
-						echo '<div class="col-xs-4 text-center">';
+						echo '<div class="col-xs-4 text-center books">';
 						echo"<img src=\"" .  $row['img_path'] . "\" width=\"150\" class=\"bookDisplay imgEffect\">";
 							
 						echo "<div><strong>".  $row['title'] . "</strong></div>";

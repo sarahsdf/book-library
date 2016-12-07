@@ -42,6 +42,10 @@ body{
   margin: 10px;
 }
 
+h1{
+    font-family: montserrat;
+    letter-spacing: 5px;
+}
 
 #navv{
   font-family: montserrat;
@@ -78,7 +82,8 @@ body{
 
 
 .books{
-  border: 2px solid #000;
+/*  border: 2px solid #000;*/
+
 }
 
 /*image hover effect from: https://designshack.net/articles/css/joshuajohnson-2/*/

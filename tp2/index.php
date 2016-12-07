@@ -62,12 +62,7 @@
         <meta charset="UTF-8">
     <!-- Styles -->
     <link rel="stylesheet" href="./src/css/bootstrap-3.3.7.min.css">
-    <link rel="stylesheet" href="./src/css/style.css">
-
-    
-    <!-- Scripts -->
-   
-
+    <link rel="stylesheet" href="./src/css/style.css">   
 
     
     <title> Libs </title>
@@ -92,7 +87,7 @@
 
         <div class="parallax">
             <div class="enter">
-                <a href="#loginHere"><span class="border">enter <!--span class="glyphicon glyphicon-chevron-down"></span--></span></a>
+                <a href="#loginHere"><span class="border">enter</span></a>
             </div>
 
         </div>
