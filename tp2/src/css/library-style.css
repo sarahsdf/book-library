@@ -38,6 +38,10 @@ body{
   background-size: cover;*/
 }
 
+#addBook{
+  margin: 10px;
+}
+
 
 #navv{
   font-family: montserrat;
@@ -55,10 +59,10 @@ body{
 
 @keyframes titlehover {
   0% {
-    background-color: #D81159;
+    color: #D81159;
   }
   100% {
-    background-color: #F6B352;
+    color: #F6B352;
   }
 }
 

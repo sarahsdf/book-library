@@ -100,7 +100,7 @@ a:hover{
 }
 
 #title:hover{
-  animation: titlehover 5s infinite;
+  animation: titlehover 10s infinite;
 }
 
 @keyframes enterhover {
@@ -114,9 +114,9 @@ a:hover{
 
 @keyframes titlehover {
   0% {
-    background-color: #D81159;
+    color: #D81159;
   }
   100% {
-    background-color: #F6B352;
+    color: #F6B352;
   }
 }

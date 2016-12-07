@@ -80,7 +80,7 @@
                     <li class="active"><a href="#">Homepage</a></li> 
                     <li><a href="library.php">View Books</a></li>
                 </ul>
-                    <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
+                    <p class="navbar-text text-uppercase" id="title">Personal Library</p>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="about.php">About</a></li>
                     <?php if(!isset($_SESSION['username'])){?>

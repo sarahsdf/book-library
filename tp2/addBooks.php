@@ -120,12 +120,18 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.php">Homepage</a></li> 
-                    <li><a href="library.php">Collection</a></li>
+                    <li><a href="library.php">View Books</a></li>
                 </ul>
-                    <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
+                    <p class="navbar-text text-uppercase" id="title">Personal Library</p>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="library.php">Back to Admin</a></li>
+                    <?php if(isset($_SESSION['username']) && $_SESSION['role'] === "admin"){?>
+                    <li><a href="addBooks.php">Add Book</a></li>
+                    <?php }?>
+                    <?php if(!isset($_SESSION['username'])){?>
+                     <li><a href="index.php#loginHere" id="login">Login</a></li>
+                     <?php } else{?>
                     <li><a href="logout.php" id="logout">Logout</a></li>
+                    <?php }?>
                 </ul>
             </div>
         </nav>
