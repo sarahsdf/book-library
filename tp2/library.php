@@ -141,8 +141,8 @@
             <!--bootstrap navigation from http://www.w3schools.com/bootstrap/bootstrap_navbar.asp-->
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php">Homepage</a></li> 
-                    <li><a href="library.php">View Books</a></li>
+                    <li><a href="index.php">Homepage</a></li> 
+                    <li class="active"><a href="library.php">View Books</a></li>
                 </ul>
                     <p class="navbar-text text-uppercase" id="title">Personal Library</p>
                 <ul class="nav navbar-nav navbar-right">
