@@ -17,6 +17,24 @@
 		return $conn;
 	}
 
+	function writeReview(){
+		$conn = connectDB();
+        
+        $book_id = $_POST['book_id'];
+        $user_id = $_POST['user_id'];
+        $date = $_POST['date'];
+        $content = $_POST['content'];
+        $sql = "INSERT into review (book_id, user_id, date, content) values('$book_id','$user_id','$date','$content')";
+        
+        if($result = mysqli_query($conn, $sql)) {
+            echo "New record created successfully <br/>";
+            header("Location: library.php");
+            } else {
+            die("Error: $sql");
+        }
+        mysqli_close($conn);
+	}
+
 	function borrowBook() {
 		$conn = connectDB();
 		
@@ -44,7 +62,7 @@
         
         if($result = mysqli_query($conn, $sql)) {
             echo "New record created successfully <br/>";
-            header("Location: viewDetails.php");
+            header("Location: library.php");
             } else {
             die("Error: $sql");
         }
@@ -91,26 +109,34 @@
         </div>
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="col-xs-12">
 					<?php 
 						echo "<h2>".  $_GET['title'] . "</h2>";
-						echo"<img src=\"" .  $_GET['img_path'] . "\" width=\"250\" class=\"bookDisplay\">";
 					?>
 				</div>
-				<div class="col-xs-6" id="bookDetails">
+				<div class="col-xs-4 pull-right">
+					<?php
+						echo"<img src=\"" .  $_GET['img_path'] . "\" width=\"250\" class=\"bookDisplay imgEffect\">";
+					?>
+				</div>
+				<div class="col-xs-8" id="bookDetails">
 					<?php
 							echo "<div class=\"row\"><strong>Author: </strong>". $_GET['author'] . "</div><br/>";
 							echo "<div class=\"row\"><strong>Publisher: </strong>". $_GET['publisher'] . "</div><br/>";
 							echo "<div class=\"row\"><strong>Description: </strong>". $_GET['description'] . "</div><br/>";
 							echo "<div class=\"row\"><strong>Quantity: </strong>". $_GET['quantity'] . "</div><br/>";
+							echo "<div class=\"row\"><strong>Reviews:</strong></div><br/>";
 							echo '<div class="row">';
 							if(isset($_SESSION['username']) && $_SESSION['role'] === "user"){
 								echo '
-								<form class="col-xs-8" action="library.php?book_id='.$_GET['book_id'].' method="post">
+								<form class="col-xs-4" action="library.php?book_id='.$_GET['book_id'].' method="post">
 									<button type="submit" class="btn btn-default text-center">Borrow this book</button>
 								</form>
 								<input type="hidden" name="title" value="'.$_GET['book_id'].'"/>
 								<input type="hidden" name="img_path" value="'.$_SESSION['user_id'].'"/>
+								';
+								echo '
+									<button type="submit" class="btn btn-info text-center pull-right" data-toggle="modal" data-target="#reviewModal">Write a review</button>
 								';
 							}
 							if(isset($_SESSION['username']) && $_SESSION['role'] === "admin"){
@@ -121,15 +147,34 @@
 	                                    <button type="submit" class="btn btn-danger">Delete</button>
 	                                </form>';
 							}
-								echo '
-								<form class="col-xs-4 pull-right" action="library.php" method="post">
-									<button type="submit" class="btn btn-default text-center">Back to Collections</button>
-								</form>
-								';
 							echo "</div>";
 					?>
 				</div>
 			</div>
+
+			<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="reviewModalLabel">Write a Review</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="viewDetails.php" method="post">
+                                
+                                <div class="form-group">
+                                    <label for="description">Review</label>
+	                                <textarea name="bookReview" id="bookReview" class="form-control"></textarea>
+                               </div>
+                                
+                                <input type="hidden" id="review-bookid" name="bookid">
+                                <input type="hidden" id="review-command" name="command" value="review">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

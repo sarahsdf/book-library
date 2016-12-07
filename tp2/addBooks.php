@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['username'])){
+    if(!isset($_SESSION['username']) && $_SESSION['role'] === "admin"){
         header("Location: index.php#loginHere");
     }
     function connectDB() {
@@ -39,7 +39,7 @@
         
         if($result = mysqli_query($conn, $sql)) {
             echo "New record created successfully <br/>";
-            header("Location: admin.php");
+            header("Location: library.php");
             } else {
             die("Error: $sql");
         }
@@ -60,7 +60,7 @@
         
         if($result = mysqli_query($conn, $sql)) {
             echo "New record created successfully <br/>";
-            header("Location: admin.php");
+            header("Location: library.php");
             } else {
             die("Error: $sql");
         }
@@ -74,7 +74,7 @@
         
         if($result = mysqli_query($conn, $sql)) {
             echo "New record created successfully <br/>";
-            header("Location: admin.php");
+            header("Location: library.php");
             } else {
             die("Error: $sql");
         }
@@ -133,7 +133,7 @@
             <!--h1 class="text-center">Latihan Lab 8</h1-->
             
                         <h4 class="modal-title" id="insertModalLabel">Add Collection</h4>
-                        <form action="admin.php" method="post" enctype="multipart/form-data">
+                        <form action="library.php" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="img_path" class="text-center text-danger">Select file to upload:</label>
                                 <input class="form-control" type="file" name="image" id="insert-cover" required />
@@ -184,7 +184,7 @@
                                 </button>
                                 </td>';
                                 echo '<td>
-                                <form action="admin.php" method="post">
+                                <form action="library.php" method="post">
                                     <input type="hidden" id="delete-bookid" name="bookid" value="'.$row['book_id'].'">
                                     <input type="hidden" id="delete-command" name="command" value="delete">
                                     <button type="submit" class="btn btn-danger">Delete</button>

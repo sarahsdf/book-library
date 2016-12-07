@@ -12,17 +12,22 @@
 }
 .container:hover{
   /*background-color: #fff;*/
-  animation: pulse 5s infinite;
+  /*animation: pulse 5s infinite;*/
+  background-image: url("../img/geometry.png");
+  background-repeat: repeat;
+  /*background-attachment: fixed;
+  background-size: cover;*/
 
 }
 
 .bookDisplay{
-  padding: 18px;
+  padding: 8px;
+  padding-right: 0px;
 }
 
 body{
-/*  http://www.w3schools.com/css/css3_gradients.asp
-*/  background: #ED9282; /* For browsers that do not support gradients */
+/*  http://www.w3schools.com/css/css3_gradients.asp */
+  background: #ED9282; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #ED9282, #FDD692); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(bottom right, #ED9282, #FDD692); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(bottom right, #ED9282, #FDD692); /* For Firefox 3.6 to 15 */
@@ -33,6 +38,7 @@ body{
   background-size: cover;*/
 }
 
+
 #navv{
   font-family: montserrat;
 }
@@ -42,8 +48,18 @@ body{
   color: black;
   letter-spacing: 5px;
 }
+
 #title:hover{
-  text-decoration: underline;
+  animation: titlehover 5s infinite;
+}
+
+@keyframes titlehover {
+  0% {
+    background-color: #D81159;
+  }
+  100% {
+    background-color: #F6B352;
+  }
 }
 
 
@@ -52,11 +68,29 @@ body{
     background-color: #d8e9ef;
   }
   100% {
-    background-color: #FADAD8;
+    background-color: #f8ecc9;
   }
 }
 
 
-#bookDetails{
-  margin-top: 120px;
+.books{
+  border: 2px solid #000;
+}
+
+/*image hover effect from: https://designshack.net/articles/css/joshuajohnson-2/*/
+.imgEffect {
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+ 
+.imgEffect:hover {
+  border-radius: 50%;
+  -webkit-transform: rotate(360deg);
+     -moz-transform: rotate(360deg);
+       -o-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+          transform: rotate(360deg);
 }

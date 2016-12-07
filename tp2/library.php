@@ -66,41 +66,29 @@
 
             //menindahkan file dari tempat yang sementara pada server ke directory yang kita inginkan
             move_uploaded_file($file_tmp, ("./src/covers/".$file_name));
-            
-            $_SESSION['message'] = "The file ". basename($file_name). " has been uploaded!" ;
-
-            if($file_size < 2097152 && ($file_ext == "jpg" || $file_ext == "png")){
-                echo $_SESSION['message'];
-                $uploadStatus = true;
-            }
-
-            //mengecek file size
-            if($file_size > 2097152 ){
-                echo "Sorry, the file is too large!";
-                $uploadStatus = false;
-            }
-
-            //mengecek file ekstensi
-            if($file_ext != "jpg" && $file_ext != "png"){
-                echo "Sorry, only JPG and PNG files are allowed";
-                $uploadStatus = false;
-            }
 
             return "./src/covers/".$file_name;
-
-            // if($uploadStatus == true){
-            //     $rowData = array("./src/covers/".$file_name, $file_name, $time);
-            //     if($_SESSION['rowData']){
-            //         $tableData = $_SESSION['rowData'];
-            //         array_push($tableData, $rowData);
-            //         $_SESSION['rowData'] = $tableData;
-            //     }
-            //     else{
-            //         $_SESSION['rowData'] = array($rowData);
-            //     }
-            //     header("Location: admin.php");
-            // }
         }
+    }
+
+    function insertBook() {
+        $conn = connectDB();
+        
+        $img_path = uploadFile();
+        $title = $_POST['title'];
+        $author = $_POST['author'];
+        $publisher = $_POST['publisher'];
+        $description = $_POST['description'];
+        $quantity = $_POST['quantity'];
+        $sql = "INSERT into book (img_path, title, author, publisher, description, quantity) values('$img_path','$title','$author','$publisher','$description','$quantity')";
+        
+        if($result = mysqli_query($conn, $sql)) {
+            echo "New record created successfully <br/>";
+            header("Location: library.php");
+            } else {
+            die("Error: $sql");
+        }
+        mysqli_close($conn);
     }
     
     function updateBook($book_id) {
@@ -128,6 +116,9 @@
 		if($_POST['command'] === 'update') {
 			updateBook($_POST['bookid']);
 		} 
+        else if($_POST['command'] === 'insert') {
+            insertBook();
+        } 
 		// else if($_POST['command'] === 'borrow') {
 		// 	borrowBook();
 		// }
@@ -185,10 +176,12 @@
 						$userId = "";
 						$cf++;
 						echo '<div class="col-xs-4 text-center">';
-						echo"<img src=\"" .  $row['img_path'] . "\" width=\"150\" class=\"bookDisplay\">";
+						echo"<img src=\"" .  $row['img_path'] . "\" width=\"150\" class=\"bookDisplay imgEffect\">";
 							
 						echo "<div><strong>".  $row['title'] . "</strong></div>";
-						echo "<em>". $row['author'] . "</em>";
+						echo "<div><strong>author</strong>: ". $row['author'] . "</div>";
+                        echo "<div><strong>publisher</strong>: ". $row['publisher'] . "</div>";
+                        echo "<div><strong>quantity</strong>: ". $row['quantity'] . "</div><br />";
 						echo '<div class="row">';
 						if(isset($_SESSION['username']) && $_SESSION['role'] === "user"){
 							echo '
@@ -197,22 +190,10 @@
 								</form>
 								';
 						}
-						if(isset($_SESSION['username']) && $_SESSION['role'] === "admin"){
-							echo '
-								<form class="col-xs-2 col-xs-offset-2" action="library.php" method="post">
-		                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateModal" onclick="setUpdateData(\''.$row['book_id'].'\',\''.$row['img_path'].'\',\''.$row['title'].'\',\''.$row['author'].'\',\''.$row['publisher'].'\',\''.$row['description'].'\',\''.$row['quantity'].'\')">
-		                            Edit
-		                            </button>
-		                        </form>';
-	                            // echo '
-	                            //     <form action="library.php" method="post" class="col-xs-6">
-	                            //         <input type="hidden" id="delete-bookid" name="bookid" value="'.$row['book_id'].'">
-	                            //         <input type="hidden" id="delete-command" name="command" value="delete">
-	                            //         <button type="submit" class="btn btn-danger">Delete</button>
-	                            //     </form>';
-                        } ?><?php
+						
+                        ?><?php
 						echo '
-						<form class="col-xs-5 col-xs-offset-2" action="viewDetails.php?book_id='.$row['book_id'].' method="post">
+						  <form class="col-xs-5 col-xs-offset-2" action="viewDetails.php?book_id='.$row['book_id'].' method="post">
 							<input type="hidden" name="book_id" value="'.$row['book_id'].'"/>
 							<input type="hidden" name="title" value="'.$row['title'].'"/>
 							<input type="hidden" name="img_path" value="'.$row['img_path'].'"/>
@@ -220,7 +201,7 @@
 							<input type="hidden" name="publisher" value="'.$row['publisher'].'"/>
 							<input type="hidden" name="quantity" value="'.$row['quantity'].'"/>
 							<input type="hidden" name="description" value="'.$row['description'].'"/>
-							<button type="submit" class="btn btn-danger text-center">view details</button>
+							<button type="submit" class="btn btn-warning text-center">view details</button>
 						</form>
 						';
 						echo '</div>';
