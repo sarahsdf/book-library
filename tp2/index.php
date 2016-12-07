@@ -83,7 +83,17 @@
                     <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="about.php">About</a></li>
-                    <li><a href="logout.php" id="logout">Logout</a></li>
+                    <?php if(!isset($_SESSION['username'])){?>
+                     <li><a href="index.php#loginHere" id="login">Login</a></li>
+                     <?php } else{ 
+                        // if( isset($_SESSION['username']) ){
+                        //     $username = $_SESSION['username']; //Want to re-instate this after we destroy the session.
+                        // }   
+                        // unset($_SESSION);
+                        // session_destroy();
+                        ?>
+                    <li><a href="index.php" id="logout">Logout</a></li>
+                    <?php }?>
                 </ul>
             </div>
         </nav>

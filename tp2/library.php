@@ -156,7 +156,11 @@
                     <p class="navbar-text text-uppercase" id="title">Welcome to our library!</p>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="about.php">About</a></li>
-                    <li><a href="logout.php" id="logout">Logout</a></li>
+                    <?php if(!isset($_SESSION['username'])){?>
+                     <li><a href="index.php#loginHere" id="login">Login</a></li>
+                     <?php } else{?>
+                    <li><a href="index.php" id="logout">Logout</a></li>
+                    <?php }?>
                 </ul>
             </div>
         </nav>
@@ -206,9 +210,9 @@
 	                            //         <input type="hidden" id="delete-command" name="command" value="delete">
 	                            //         <button type="submit" class="btn btn-danger">Delete</button>
 	                            //     </form>';
-                        }
+                        } ?><?php
 						echo '
-						<form class="col-xs-6 col-xs-offset-2" action="viewDetails.php?book_id='.$row['book_id'].' method="post">
+						<form class="col-xs-5 col-xs-offset-2" action="viewDetails.php?book_id='.$row['book_id'].' method="post">
 							<input type="hidden" name="book_id" value="'.$row['book_id'].'"/>
 							<input type="hidden" name="title" value="'.$row['title'].'"/>
 							<input type="hidden" name="img_path" value="'.$row['img_path'].'"/>
