@@ -16,6 +16,13 @@
 		}
 		return $conn;
 	}
+	
+	function checkBorrow($book_id){
+        $conn = connectDB();
+        $sql = "SELECT * from loan WHERE user_id = " . $_SESSION['user_id'] . " AND book_id = " . $book_id;
+        $result = $conn->query($sql);
+        return $result;
+    }
 
 	function writeReview(){
 		$conn = connectDB();
@@ -85,7 +92,9 @@
 					<?php
 						echo"<img src=\"" .  $row['img_path'] . "\" width=\"250\" class=\"bookDisplay imgEffect\">";
 						if(isset($_SESSION['username']) && $_SESSION['role'] === "user"){
-							if ($row['quantity'] > 0) {
+							$result2 = checkBorrow($row['book_id']);
+							$row2 = $result2->fetch_assoc();
+							if ($row['quantity'] > 0 && $row2 === null) {
 							echo '
 								<form class="" action="borrowed.php" method="post">
 									<input type="hidden" name="command" value="borrow">
@@ -93,6 +102,16 @@
 									<button type="submit" class="btn btn-default text-center">Borrow this book</button>
 								</form>
 								';
+							}
+							
+							if($row2 !== null){
+								echo '
+										<form class="" action="borrowed.php" method="post">
+											<input type="hidden" name="command" value="return">
+											<input type="hidden" name="book_id" value="'.$row['book_id'].'">
+											<button type="submit" class="btn btn-default text-center">Return</button>
+										</form>
+										';
 							}
 							echo '
 								<div><button type="submit" class="btn btn-info text-center" data-toggle="modal" data-target="#reviewModal">Write a review</button></div>

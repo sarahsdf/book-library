@@ -23,6 +23,13 @@
         $result = $conn->query($sql);
         return $result;
     }
+	
+	function checkBorrow($book_id){
+        $conn = connectDB();
+        $sql = "SELECT * from loan WHERE user_id = " . $_SESSION['user_id'] . " AND book_id = " . $book_id;
+        $result = $conn->query($sql);
+        return $result;
+    }
 
     function uploadFile() {
         $target_dir = "./src/covers/";
@@ -137,12 +144,25 @@
                         echo "<div><strong>publisher</strong>: ". $row['publisher'] . "</div>";
                         echo "<div><strong>quantity</strong>: ". $row['quantity'] . "</div><br />";
 						echo '<div class="row">';
-						if(isset($_SESSION['username']) && $_SESSION['role'] === "user" && $row['quantity'] > 0){
+						
+						$result2 = checkBorrow($row['book_id']);
+						$row2 = $result2->fetch_assoc();
+						
+						if(isset($_SESSION['username']) && $_SESSION['role'] === "user" && $row['quantity'] > 0 && $row2 === null){
 							echo '
 								<form class="" action="borrowed.php" method="post">
 									<input type="hidden" name="command" value="borrow">
 									<input type="hidden" name="book_id" value="'.$row['book_id'].'">
 									<button type="submit" class="btn btn-default text-center">Borrow this book</button>
+								</form>
+								';
+						}
+						if(isset($_SESSION['username']) && $_SESSION['role'] === "user" && $row2 !== null){
+						echo '
+								<form class="" action="borrowed.php" method="post">
+									<input type="hidden" name="command" value="return">
+									<input type="hidden" name="book_id" value="'.$row['book_id'].'">
+									<button type="submit" class="btn btn-default text-center">Return</button>
 								</form>
 								';
 						}
