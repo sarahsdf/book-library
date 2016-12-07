@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="./src/css/style.css">   
 
     
-    <title> Libs </title>
+    <title>Personal Library</title>
     </head>
     <body data-spy="scroll" data-target=".enter">
         <nav class="navbar text-center navbar-default navbar-fixed-top" id="navv">
@@ -77,7 +77,6 @@
                 </ul>
                     <p class="navbar-text text-uppercase" id="title">Personal Library</p>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="about.php">About</a></li>
                     <?php if(!isset($_SESSION['username'])){?>
                      <li><a href="index.php#loginHere" id="login">Login</a></li>
                      <?php }?>
